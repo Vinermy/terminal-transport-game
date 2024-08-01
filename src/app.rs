@@ -1,4 +1,5 @@
 use crate::moving_train_system::MovingTrain;
+use crate::traffic_light_system::ActiveTrafficLight;
 use specs::{RunNow, World, WorldExt};
 use std::error;
 
@@ -56,6 +57,9 @@ impl App {
     pub fn run_systems(&mut self) {
         let mut mts = MovingTrain {};
         mts.run_now(&self.ecs);
+
+        let mut atl = ActiveTrafficLight {};
+        atl.run_now(&self.ecs);
 
         self.ecs.maintain();
     }

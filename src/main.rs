@@ -1,11 +1,13 @@
+use std::io;
+
 use ratatui::backend::CrosstermBackend;
 use ratatui::style::Color;
 use ratatui::Terminal;
 use specs::{Builder, WorldExt};
-use std::io;
+
 use terminal_transport_game::app::{App, AppResult};
 use terminal_transport_game::components::{
-    Direction, Point, TrainColors, TrainHead, TrainParameters, TrainParts,
+    Direction, Point, TrafficLight, TrainColors, TrainHead, TrainParameters, TrainParts,
 };
 use terminal_transport_game::event::{Event, EventHandler};
 use terminal_transport_game::handler::handle_key_events;
@@ -22,6 +24,8 @@ fn main() -> AppResult<()> {
     app.ecs.register::<TrainHead>();
     app.ecs.register::<TrainColors>();
     app.ecs.register::<TrainParameters>();
+    app.ecs.register::<Direction>();
+    app.ecs.register::<TrafficLight>();
 
     app.ecs
         .create_entity()
@@ -39,9 +43,37 @@ fn main() -> AppResult<()> {
             mass: 5.0,
             velocity: 0.0,
             acceleration: 0.0,
-            force: 50.0,
+            force: 3.0,
             movement_direction: Direction::Up,
         })
+        .build();
+
+    app.ecs
+        .create_entity()
+        .with(TrafficLight { is_green: true })
+        .with(Point { x: 5, y: 0 })
+        .with(Direction::Right)
+        .build();
+
+    app.ecs
+        .create_entity()
+        .with(TrafficLight { is_green: true })
+        .with(Point { x: 19, y: 5 })
+        .with(Direction::Down)
+        .build();
+
+    app.ecs
+        .create_entity()
+        .with(TrafficLight { is_green: true })
+        .with(Point { x: 3, y: 9 })
+        .with(Direction::Left)
+        .build();
+
+    app.ecs
+        .create_entity()
+        .with(TrafficLight { is_green: true })
+        .with(Point { x: 0, y: 6 })
+        .with(Direction::Up)
         .build();
 
     // Initialize the terminal user interface.

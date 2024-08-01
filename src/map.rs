@@ -6,6 +6,7 @@ pub struct Map {
     width: usize,
     height: usize,
     tiles: Vec<MapTile>,
+    pub occupied_tiles: Vec<bool>,
 }
 
 impl Map {
@@ -14,6 +15,7 @@ impl Map {
             width: w as usize,
             height: h as usize,
             tiles: vec![MapTile::from(RailShape::Empty); (w * h) as usize],
+            occupied_tiles: vec![false; (w * h) as usize],
         }
     }
     pub fn simple_ring(w: i32, h: i32) -> Self {

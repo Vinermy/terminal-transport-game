@@ -24,3 +24,4 @@ mod map_tile;
 /// Helper components
 pub mod components;
 pub mod moving_train_system;
+pub mod traffic_light_system;

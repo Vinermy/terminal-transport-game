@@ -42,7 +42,7 @@ pub struct TrainParameters {
     pub movement_direction: Direction,
 }
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, Component)]
 pub enum Direction {
     Up,
     Right,
@@ -72,6 +72,17 @@ impl From<Direction> for Point {
     }
 }
 
+impl From<Direction> for char {
+    fn from(value: Direction) -> Self {
+        match value {
+            Direction::Up => '⇑',
+            Direction::Right => '⇒',
+            Direction::Down => '⇓',
+            Direction::Left => '⇐',
+        }
+    }
+}
+
 impl Add<Point> for Point {
     type Output = Point;
 
@@ -85,4 +96,9 @@ impl AddAssign<Point> for Point {
         self.x += rhs.x;
         self.y += rhs.y;
     }
+}
+
+#[derive(Component, Copy, Clone)]
+pub struct TrafficLight {
+    pub is_green: bool,
 }
